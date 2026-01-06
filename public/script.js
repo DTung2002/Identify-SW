@@ -210,5 +210,49 @@ function showError(input, message) {
 
     input.parentElement.appendChild(error);
 }
+// File: public/script.js
+const cccdFrontInput = document.getElementById("cccdFront");
 
+cccdFrontInput.addEventListener("change", async () => {
+    const file = cccdFrontInput.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+        // Gửi ảnh lên Server của bạn (chạy ở port 3000)
+        const res = await fetch("/ocr/cccd", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await res.json();
+
+        if (!result.success) {
+            alert("Không đọc được CCCD");
+            return;
+        }
+
+        const data = result.data;
+
+        // Tự động điền vào các ô input trong file index.html
+        document.getElementById("cccdName").value = data.hoTen || "";
+        document.getElementById("cccdNumber").value = data.soCCCD || "";
+        document.getElementById("cccdAddress").value = data.diaChi || "";
+
+        if (data.ngayCap) {
+            // Chuyển định dạng ngày nếu cần (VD: 20/10/2023 -> 2023-10-20)
+            const parts = data.ngayCap.split("/");
+            if(parts.length === 3) {
+                document.getElementById("cccdDate").value = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+        }
+
+        console.log("OCR thành công:", data);
+    } catch (err) {
+        console.error(err);
+        alert("Lỗi khi kết nối tới Server");
+    }
+});
 showStep(0);

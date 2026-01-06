@@ -27,13 +27,13 @@
         <div class="step-content active">
             <h3>Bước 1: Cập nhật thông tin cá nhân</h3>
             <label>Họ tên</label>
-            <input type="text">
+            <input type="text" id="infoName"> 
 
             <label>Số điện thoại</label>
             <input type="text" id="phone">
 
             <label>Địa chỉ</label>
-            <input type="text">
+            <input type="text" id="infoAddress">
         </div>
 
         <!-- STEP 2 -->
@@ -43,14 +43,14 @@
             <div class="cccd-row">
                 <div>
                     <label>Mặt trước</label>
-                    <input type="file" accept="image/*"
+                    <input type="file" id="cccdFront" accept="image/*"
                         onchange="previewImage(this,'frontPreview')">
                     <img id="frontPreview" class="preview">
                 </div>
 
                 <div>
                     <label>Mặt sau</label>
-                    <input type="file" accept="image/*"
+                    <input type="file" id="cccdBack" accept="image/*"
                         onchange="previewImage(this,'backPreview')">
                     <img id="backPreview" class="preview">
                 </div>
